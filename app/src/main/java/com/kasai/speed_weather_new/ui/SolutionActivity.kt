@@ -1,0 +1,40 @@
+/*
+ * Copyright (C) 2018 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package com.kasai.speed_weather_new.ui
+
+import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
+import com.kasai.speed_weather_new.R
+
+/**
+ * Final codelab solution.
+ */
+class SolutionActivity : AppCompatActivity() {
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        if (savedInstanceState == null) {
+            val fragment = SearchWeatherFragment() //一覧のFragment
+            supportFragmentManager
+                .beginTransaction()
+                .add(R.id.fragment_container, fragment, TAG_OF_SEARCH_WEATHER_FRAGMENT)
+                .commit()
+        }
+    }
+}

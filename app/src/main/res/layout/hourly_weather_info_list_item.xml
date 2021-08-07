@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+
+        <variable
+            name="weatherInfoViewModel"
+            type="com.kasai.speed_weather_new.viewModel.WeatherInfoViewModel"/>
+
+        <variable name="position" type="Integer"/>
+
+    </data>
+
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:background="@color/colorAccent">
+
+        <TextView
+            android:id="@+id/hourly_temp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:hourlyTemps="@{weatherInfoViewModel.weatherInfoLiveData.hourly}"
+            app:position="@{position}"/>
+
+    </FrameLayout>
+
+</layout>
