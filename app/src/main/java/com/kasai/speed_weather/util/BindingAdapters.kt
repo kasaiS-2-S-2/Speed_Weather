@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-package com.kasai.speed_weather_new.util
+package com.kasai.speed_weather.util
 
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
-import com.kasai.speed_weather_new.model.WeatherInfo
+import com.kasai.speed_weather.model.WeatherInfo
 
 @BindingAdapter("app:showAllHourlyTemp")
 fun showAllHourlyTemp(view: TextView, hourlyWeatherTemps: List<WeatherInfo.Hourly>?) {

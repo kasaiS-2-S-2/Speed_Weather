@@ -1,4 +1,4 @@
-package com.kasai.speed_weather_new
+package com.kasai.speed_weather
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4

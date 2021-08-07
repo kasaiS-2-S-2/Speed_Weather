@@ -1,4 +1,4 @@
-package com.kasai.speed_weather_new.model
+package com.kasai.speed_weather.model
 
 data class WeatherInfo(
     val current: Current,

@@ -1,4 +1,4 @@
-package com.kasai.speed_weather_new.viewModel
+package com.kasai.speed_weather.viewModel
 
 import android.Manifest
 import android.app.Application
@@ -7,7 +7,6 @@ import android.content.pm.PackageManager
 import android.util.Log
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.google.android.gms.common.api.ApiException
 import com.google.android.libraries.places.api.Places

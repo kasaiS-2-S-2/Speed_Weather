@@ -25,9 +25,9 @@
 
         <variable
             name="weatherInfoViewModel"
-            type="com.kasai.speed_weather_new.viewModel.WeatherInfoViewModel"/>
+            type="com.kasai.speed_weather.viewModel.WeatherInfoViewModel"/>
 
-        <variable name="searchWeatherFragment" type="com.kasai.speed_weather_new.ui.SearchWeatherFragment" />
+        <variable name="searchWeatherFragment" type="com.kasai.speed_weather.ui.SearchWeatherFragment" />
 
     </data>
 

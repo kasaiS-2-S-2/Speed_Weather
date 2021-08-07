@@ -1,6 +1,6 @@
-package com.kasai.speed_weather_new.repository
+package com.kasai.speed_weather.repository
 
-import com.kasai.speed_weather_new.model.WeatherInfo
+import com.kasai.speed_weather.model.WeatherInfo
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory

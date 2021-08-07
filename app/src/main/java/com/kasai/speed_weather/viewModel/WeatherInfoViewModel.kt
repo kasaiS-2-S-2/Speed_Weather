@@ -1,11 +1,11 @@
-package com.kasai.speed_weather_new.viewModel
+package com.kasai.speed_weather.viewModel
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.kasai.speed_weather_new.model.WeatherInfo
-import com.kasai.speed_weather_new.repository.WeatherInfoRepository
+import com.kasai.speed_weather.model.WeatherInfo
+import com.kasai.speed_weather.repository.WeatherInfoRepository
 import kotlinx.coroutines.launch
 
 class WeatherInfoViewModel : ViewModel() {

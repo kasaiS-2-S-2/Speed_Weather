@@ -1,4 +1,4 @@
-package com.kasai.speed_weather_new.ui
+package com.kasai.speed_weather.ui
 
 import android.Manifest
 import android.app.Activity
@@ -26,12 +26,12 @@ import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.api.model.PlaceLikelihood
 import com.google.android.libraries.places.api.net.FindCurrentPlaceRequest
-import com.kasai.speed_weather_new.R
-import com.kasai.speed_weather_new.databinding.SolutionBinding
-import com.kasai.speed_weather_new.model.WeatherInfo
-import com.kasai.speed_weather_new.util.HourlyWeatherInfoListAdapter
-import com.kasai.speed_weather_new.viewModel.CurrentPlaceInfoViewModel
-import com.kasai.speed_weather_new.viewModel.WeatherInfoViewModel
+import com.kasai.speed_weather.R
+import com.kasai.speed_weather.databinding.SolutionBinding
+import com.kasai.speed_weather.model.WeatherInfo
+import com.kasai.speed_weather.util.HourlyWeatherInfoListAdapter
+import com.kasai.speed_weather.viewModel.CurrentPlaceInfoViewModel
+import com.kasai.speed_weather.viewModel.WeatherInfoViewModel
 
 
 const val TAG_OF_SEARCH_WEATHER_FRAGMENT = "SearchWeatherFragment"

@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-package com.kasai.speed_weather_new.ui
+package com.kasai.speed_weather.ui
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.kasai.speed_weather_new.R
+import com.kasai.speed_weather.R
 
 /**
  * Final codelab solution.

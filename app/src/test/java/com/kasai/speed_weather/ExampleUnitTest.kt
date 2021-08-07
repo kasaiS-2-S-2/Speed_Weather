@@ -1,4 +1,4 @@
-package com.kasai.speed_weather_new
+package com.kasai.speed_weather
 
 import org.junit.Test
 

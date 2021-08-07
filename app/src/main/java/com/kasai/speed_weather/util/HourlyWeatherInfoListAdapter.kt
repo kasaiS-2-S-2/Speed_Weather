@@ -1,13 +1,13 @@
-package com.kasai.speed_weather_new.util
+package com.kasai.speed_weather.util
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.RecyclerView
-import com.kasai.speed_weather_new.R
-import com.kasai.speed_weather_new.databinding.HourlyWeatherInfoListItemBinding
-import com.kasai.speed_weather_new.viewModel.WeatherInfoViewModel
+import com.kasai.speed_weather.R
+import com.kasai.speed_weather.databinding.HourlyWeatherInfoListItemBinding
+import com.kasai.speed_weather.viewModel.WeatherInfoViewModel
 
 class HourlyWeatherInfoListAdapter(private val viewModel: WeatherInfoViewModel, private val parentLifecycleOwner: LifecycleOwner) :
     RecyclerView.Adapter<HourlyWeatherInfoListAdapter.HourlyWeatherInfoViewHolder>() {
