@@ -3,7 +3,15 @@
 
 ## 使用予定技術
 ・Fragment
-・MVVM
-・DataBinding
-・Retrofit
+
 ・RecyclerView
+
+・MVVM
+
+・DataBinding
+
+・LiveData
+
+・Retrofit
+
+・Coroutines
