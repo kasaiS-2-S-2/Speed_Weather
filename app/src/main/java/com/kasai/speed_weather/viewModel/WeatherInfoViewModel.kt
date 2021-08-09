@@ -1,6 +1,7 @@
 package com.kasai.speed_weather.viewModel
 
 import android.util.Log
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -10,32 +11,30 @@ import kotlinx.coroutines.launch
 
 class WeatherInfoViewModel : ViewModel() {
     private val repository = WeatherInfoRepository.instance
-
     //監視対象のLiveData
-    var weatherInfoLiveData: MutableLiveData<WeatherInfo> = MutableLiveData()
+    private val _weatherInfoLiveData = MutableLiveData<WeatherInfo>()
+    val weatherInfoLiveData: LiveData<WeatherInfo> = _weatherInfoLiveData
 
     //ViewModel初期化時にロード
+    /*
     init {
         loadWeatherInfo()
     }
+    */
 
-    private fun loadWeatherInfo() {
+    fun loadWeatherInfo(lat: Double, lon: Double) {
+        Log.d("loadWeatherInfo", "lat" + " " + lat + " " + "lon" + " " + lon)
         //viewModelScope->ViewModel.onCleared() のタイミングでキャンセルされる CoroutineScope
         viewModelScope.launch {
             try {
                 // 実行時は、appIDを自分のやつに書き換えする
-                val request = repository.getWeatherInfo("35.68", "139.77", "minutely", "apikey")
-                Log.d("AAAAAAAAAAAAAAAA1", "AAAAAAAAAAAAAAAAAAAAA")
-                weatherInfoLiveData.postValue(request.body())
+                val request = repository.getWeatherInfo(lat.toString(), lon.toString(), "minutely", "apikey")
+                _weatherInfoLiveData.postValue(request.body())
                 if (request.isSuccessful) {
                     //データを取得したら、LiveDataを更新
-                    weatherInfoLiveData.postValue(request.body())
-                    Log.d("AAAAAAAAAAAAAAAAAAAAA2", "AAAAAAAAAAAAAAAAAAAAA")
+                    _weatherInfoLiveData.postValue(request.body())
                 }
             } catch (e: Exception) {
-                e.stackTrace
-
-                Log.d("AAAAAAAAAAAAAAAA3", "AAAAAAAAAAAAAAAAAAAAA")
                 e.printStackTrace()
             }
         }
