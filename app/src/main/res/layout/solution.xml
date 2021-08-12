@@ -24,8 +24,8 @@
     <data>
 
         <variable
-            name="weatherInfoViewModel"
-            type="com.kasai.speed_weather.viewModel.WeatherInfoViewModel"/>
+            name="searchWeatherViewModel"
+            type="com.kasai.speed_weather.viewModel.SearchWeatherViewModel"/>
 
         <variable name="searchWeatherFragment" type="com.kasai.speed_weather.ui.SearchWeatherFragment" />
 
@@ -43,7 +43,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:showAllHourlyTemp="@{weatherInfoViewModel.weatherInfoLiveData.hourly}"/>
+            app:showAllHourlyTemp="@{searchWeatherViewModel.weatherInfoLiveData.hourly}"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/hourly_temps_view"

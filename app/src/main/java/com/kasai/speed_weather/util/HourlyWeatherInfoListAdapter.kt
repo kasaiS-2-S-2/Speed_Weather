@@ -7,9 +7,9 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.RecyclerView
 import com.kasai.speed_weather.R
 import com.kasai.speed_weather.databinding.HourlyWeatherInfoListItemBinding
-import com.kasai.speed_weather.viewModel.WeatherInfoViewModel
+import com.kasai.speed_weather.viewModel.SearchWeatherViewModel
 
-class HourlyWeatherInfoListAdapter(private val viewModel: WeatherInfoViewModel, private val parentLifecycleOwner: LifecycleOwner) :
+class HourlyWeatherInfoListAdapter(private val viewModel: SearchWeatherViewModel, private val parentLifecycleOwner: LifecycleOwner) :
     RecyclerView.Adapter<HourlyWeatherInfoListAdapter.HourlyWeatherInfoViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HourlyWeatherInfoViewHolder {
@@ -23,7 +23,7 @@ class HourlyWeatherInfoListAdapter(private val viewModel: WeatherInfoViewModel, 
     }
 
     override fun onBindViewHolder(holder: HourlyWeatherInfoViewHolder, position: Int) {
-        holder.binding.weatherInfoViewModel = viewModel
+        holder.binding.searchWeatherViewModel = viewModel
         holder.binding.position = position
         //ここでviewholderのlifecycleOwnerにセットする！
         holder.binding.lifecycleOwner = parentLifecycleOwner

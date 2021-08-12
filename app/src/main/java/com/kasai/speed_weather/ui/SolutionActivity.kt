@@ -20,9 +20,6 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.kasai.speed_weather.R
 
-/**
- * Final codelab solution.
- */
 class SolutionActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,7 +27,7 @@ class SolutionActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         if (savedInstanceState == null) {
-            val fragment = SearchWeatherFragment() //一覧のFragment
+            val fragment = SearchWeatherFragment()
             supportFragmentManager
                 .beginTransaction()
                 .add(R.id.fragment_container, fragment, TAG_OF_SEARCH_WEATHER_FRAGMENT)

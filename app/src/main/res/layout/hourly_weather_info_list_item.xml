@@ -5,8 +5,8 @@
     <data>
 
         <variable
-            name="weatherInfoViewModel"
-            type="com.kasai.speed_weather.viewModel.WeatherInfoViewModel"/>
+            name="searchWeatherViewModel"
+            type="com.kasai.speed_weather.viewModel.SearchWeatherViewModel"/>
 
         <variable name="position" type="Integer"/>
 
@@ -22,7 +22,7 @@
             android:id="@+id/hourly_temp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:hourlyTemps="@{weatherInfoViewModel.weatherInfoLiveData.hourly}"
+            app:hourlyTemps="@{searchWeatherViewModel.weatherInfoLiveData.hourly}"
             app:position="@{position}"/>
 
     </FrameLayout>

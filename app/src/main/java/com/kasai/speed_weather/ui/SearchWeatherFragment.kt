@@ -23,8 +23,7 @@ import com.google.android.libraries.places.api.Places
 import com.kasai.speed_weather.R
 import com.kasai.speed_weather.databinding.SolutionBinding
 import com.kasai.speed_weather.util.HourlyWeatherInfoListAdapter
-import com.kasai.speed_weather.viewModel.CurrentPlaceInfoViewModel
-import com.kasai.speed_weather.viewModel.WeatherInfoViewModel
+import com.kasai.speed_weather.viewModel.SearchWeatherViewModel
 
 
 const val TAG_OF_SEARCH_WEATHER_FRAGMENT = "SearchWeatherFragment"
@@ -33,17 +32,14 @@ class SearchWeatherFragment : Fragment() {
 
     private lateinit var binding: SolutionBinding
 
-    private val weatherInfoViewModel: WeatherInfoViewModel by viewModels()
-    //private lateinit var weatherInfoBinding: SolutionBinding
-
-    private val currentPlaceInfoViewModel: CurrentPlaceInfoViewModel by viewModels()
+    private val searchWeatherViewModel: SearchWeatherViewModel by viewModels()
 
     private val requestPermissionLauncher = getRequestPermissionLauncher()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        //gitにはapikeyのcommit禁止！!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        Places.initialize(requireActivity().getApplicationContext(), "")
+        //githubにはapikeyのcommit禁止！!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        Places.initialize(requireActivity().getApplicationContext(), "apikey")
 
         binding = DataBindingUtil.inflate(inflater, R.layout.solution, container, false) //dataBinding
         binding.lifecycleOwner = this
@@ -53,19 +49,19 @@ class SearchWeatherFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.searchWeatherFragment = this
-        observeWeatherInfoViewModel(weatherInfoViewModel)
+        observeWeatherInfoViewModel(searchWeatherViewModel)
     }
 
     //observe開始
     //通知の内容に応じた処理を行う
-    private fun observeWeatherInfoViewModel(viewModel: WeatherInfoViewModel) {
+    private fun observeWeatherInfoViewModel(viewModel: SearchWeatherViewModel) {
         //データをSTARTED かRESUMED状態である場合にのみ、アップデートするように、LifecycleOwnerを紐付け、ライフサイクル内にオブザーバを追加
         viewModel.weatherInfoLiveData.observe(viewLifecycleOwner, Observer { weatherInfo ->
             if (weatherInfo != null) {
-                binding.weatherInfoViewModel = viewModel
+                binding.searchWeatherViewModel = viewModel
 
                 val hourlyTempsRecyclerView = binding.hourlyTempsView
-                val adapter = HourlyWeatherInfoListAdapter(weatherInfoViewModel, this)
+                val adapter = HourlyWeatherInfoListAdapter(viewModel, this)
                 hourlyTempsRecyclerView.adapter = adapter
                 val layoutManager = LinearLayoutManager(activity)
                 layoutManager.orientation = LinearLayoutManager.HORIZONTAL
@@ -81,8 +77,7 @@ class SearchWeatherFragment : Fragment() {
 
             requestPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
         } else {
-            currentPlaceInfoViewModel.updateCurrentPlaceInfo()
-            weatherInfoViewModel.loadWeatherInfo(currentPlaceInfoViewModel.lat, currentPlaceInfoViewModel.lon)
+            searchWeatherViewModel.requestWeatherOfCurrentPlace()
         }
     }
 
