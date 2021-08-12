@@ -1,9 +1,7 @@
 package com.kasai.speed_weather.ui
 
 import android.Manifest
-import android.app.Activity
 import android.content.ActivityNotFoundException
-import android.content.ContentValues
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
@@ -21,14 +19,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.gms.common.api.ApiException
 import com.google.android.libraries.places.api.Places
-import com.google.android.libraries.places.api.model.Place
-import com.google.android.libraries.places.api.model.PlaceLikelihood
-import com.google.android.libraries.places.api.net.FindCurrentPlaceRequest
 import com.kasai.speed_weather.R
 import com.kasai.speed_weather.databinding.SolutionBinding
-import com.kasai.speed_weather.model.WeatherInfo
 import com.kasai.speed_weather.util.HourlyWeatherInfoListAdapter
 import com.kasai.speed_weather.viewModel.CurrentPlaceInfoViewModel
 import com.kasai.speed_weather.viewModel.WeatherInfoViewModel
@@ -50,7 +43,7 @@ class SearchWeatherFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         //gitにはapikeyのcommit禁止！!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        Places.initialize(requireActivity().getApplicationContext(), "apikey")
+        Places.initialize(requireActivity().getApplicationContext(), "")
 
         binding = DataBindingUtil.inflate(inflater, R.layout.solution, container, false) //dataBinding
         binding.lifecycleOwner = this
@@ -61,10 +54,6 @@ class SearchWeatherFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.searchWeatherFragment = this
         observeWeatherInfoViewModel(weatherInfoViewModel)
-    }
-
-    override fun onAttach(activity: Activity) {
-        super.onAttach(activity)
     }
 
     //observe開始

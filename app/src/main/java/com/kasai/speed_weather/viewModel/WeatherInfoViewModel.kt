@@ -28,7 +28,7 @@ class WeatherInfoViewModel : ViewModel() {
         viewModelScope.launch {
             try {
                 // 実行時は、appIDを自分のやつに書き換えする
-                val request = repository.getWeatherInfo(lat.toString(), lon.toString(), "minutely", "apikey")
+                val request = repository.getWeatherInfo(lat.toString(), lon.toString(), "minutely", "")
                 _weatherInfoLiveData.postValue(request.body())
                 if (request.isSuccessful) {
                     //データを取得したら、LiveDataを更新
