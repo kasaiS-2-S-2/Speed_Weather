@@ -39,7 +39,7 @@ class SearchWeatherFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         //githubにはapikeyのcommit禁止！!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        Places.initialize(requireActivity().getApplicationContext(), "apikey")
+        Places.initialize(requireActivity().getApplicationContext(), "AIzaSyBv8w2ox4_QT82ojiuDcZ3hm6k48eAqrng")
 
         binding = DataBindingUtil.inflate(inflater, R.layout.solution, container, false) //dataBinding
         binding.lifecycleOwner = this
@@ -82,10 +82,6 @@ class SearchWeatherFragment : Fragment() {
     }
 
     private fun getRequestPermissionLauncher(): ActivityResultLauncher<String> {
-        // Register the permissions callback, which handles the user's response to the
-        // system permissions dialog. Save the return value, an instance of
-        // ActivityResultLauncher. You can use either a val, as shown in this snippet,
-        // or a lateinit var in your onAttach() or onCreate() method.
         val requestPermissionLauncher =
             registerForActivityResult(
                 ActivityResultContracts.RequestPermission()

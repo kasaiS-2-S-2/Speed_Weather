@@ -42,7 +42,7 @@ class SearchWeatherViewModel(application: Application) : AndroidViewModel(applic
         viewModelScope.launch {
             try {
                 // 実行時は、appIDを自分のやつに書き換えする
-                val request = repository.getWeatherInfo(lat.toString(), lon.toString(), "minutely", "apikey")
+                val request = repository.getWeatherInfo(lat.toString(), lon.toString(), "minutely", "ef1e1506d6f0c471d708abbc35d8ed7d")
                 _weatherInfoLiveData.postValue(request.body())
                 if (request.isSuccessful) {
                     //データを取得したら、LiveDataを更新
