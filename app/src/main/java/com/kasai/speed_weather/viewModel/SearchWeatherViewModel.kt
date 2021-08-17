@@ -17,51 +17,42 @@ import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.api.model.PlaceLikelihood
 import com.google.android.libraries.places.api.net.FindCurrentPlaceRequest
 import com.google.android.libraries.places.api.net.FindCurrentPlaceResponse
+import com.kasai.speed_weather.R
+import com.kasai.speed_weather.model.PlaceInfo
 import com.kasai.speed_weather.model.WeatherInfo
-import com.kasai.speed_weather.repository.WeatherInfoRepository
+import com.kasai.speed_weather.repository.InfoRepository
 import kotlinx.coroutines.launch
 
 
 class SearchWeatherViewModel(application: Application) : AndroidViewModel(application) {
 
-    private val repository = WeatherInfoRepository.instance
+    private val repository = InfoRepository.instance
     //監視対象のLiveData
-    private val _weatherInfoLiveData = MutableLiveData<WeatherInfo>()
-    val weatherInfoLiveData: LiveData<WeatherInfo> = _weatherInfoLiveData
+    private val _weatherInfo = MutableLiveData<WeatherInfo>()
+    val weatherInfo: LiveData<WeatherInfo> = _weatherInfo
 
-    // 経度(初期値はシカゴに設定)
-    private var lat: Double = 41.8781
+    // 入力された場所の文字列
+    val placeName = MutableLiveData<String>("")
+    // 現在地を検索するかのラジオボタンの値
+    val searchCurrentPlace = MutableLiveData<Boolean>(false)
+    // 調べる場所の経度(初期値は南極に設定)
+    private var lat: Double = -75.250973
+    // 調べる場所の緯度(初期値は南極に設定)
+    private var lon: Double = -0.071389
+    private var placeInfo: PlaceInfo = PlaceInfo(emptyList(), "")
 
-    // 緯度(初期値はシカゴに設定)
-    private var lon: Double = -87.6297
-
-
-    fun loadWeatherInfo(lat: Double, lon: Double) {
-        Log.d("loadWeatherInfo", "lat" + " " + lat + " " + "lon" + " " + lon)
-        //viewModelScope->ViewModel.onCleared() のタイミングでキャンセルされる CoroutineScope
-        viewModelScope.launch {
-            try {
-                // 実行時は、appIDを自分のやつに書き換えする
-                val request = repository.getWeatherInfo(lat.toString(), lon.toString(), "minutely", "ef1e1506d6f0c471d708abbc35d8ed7d")
-                _weatherInfoLiveData.postValue(request.body())
-                if (request.isSuccessful) {
-                    //データを取得したら、LiveDataを更新
-                    _weatherInfoLiveData.postValue(request.body())
-                }
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
-        }
+    fun printSearchCurrentPlace() {
+        Log.d("searchCurrentPlace", searchCurrentPlace.value.toString())
+        Log.d("placeName", placeName.value.toString())
     }
 
     fun requestWeatherOfCurrentPlace() {
         // Use fields to define the data types to return.
         val placeFields: List<Place.Field> = listOf(Place.Field.LAT_LNG)
-
         // Use the builder to create a FindCurrentPlaceRequest.
         val request: FindCurrentPlaceRequest = FindCurrentPlaceRequest.newInstance(placeFields)
-
         // Call findCurrentPlace and handle the response (first check that the user has granted permission).
+
         if (ContextCompat.checkSelfPermission(getApplication<Application>(), Manifest.permission.ACCESS_FINE_LOCATION) ==
             PackageManager.PERMISSION_GRANTED) {
 
@@ -101,6 +92,14 @@ class SearchWeatherViewModel(application: Application) : AndroidViewModel(applic
         }
     }
 
+    fun requestWeatherOfSpecificPlace() {
+        viewModelScope.launch {
+            // viewModelScope->ViewModel.onCleared() のタイミングでキャンセルされる CoroutineScope
+            loadPlaceInfo(placeName.value.toString())
+            loadWeatherInfo(lat, lon)
+        }
+    }
+
     private fun getMostAccurateCurrentLocation(task: Task<FindCurrentPlaceResponse>): PlaceLikelihood? {
         val response = task.result
         var resultPlaceInfo: PlaceLikelihood? = response?.placeLikelihoods?.get(0)
@@ -123,6 +122,46 @@ class SearchWeatherViewModel(application: Application) : AndroidViewModel(applic
         } else {
             return null
         }
+    }
+
+    fun loadWeatherInfo(lat: Double, lon: Double) {
+        Log.d("loadWeatherInfo", "lat" + " " + lat + " " + "lon" + " " + lon)
+        //viewModelScope->ViewModel.onCleared() のタイミングでキャンセルされる CoroutineScope
+        viewModelScope.launch {
+            try {
+                // 実行時は、appIDを自分のやつに書き換えする
+                val request = repository.getWeatherInfo(lat.toString(), lon.toString(),
+                    "minutely", getApplication<Application>().applicationContext.getString(R.string.api_key_open_weather_map))
+                if (request.isSuccessful) {
+                    //データを取得したら、LiveDataを更新
+                    _weatherInfo.postValue(request.body())
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
+
+    suspend fun loadPlaceInfo(placeName: String) {
+        //viewModelScope->ViewModel.onCleared() のタイミングでキャンセルされる CoroutineScope
+        //viewModelScope.launch {
+            try {
+                // 実行時は、keyを自分のやつに書き換えする
+                val request = repository.getPlaceInfo(placeName, "textquery",
+                    "formatted_address,geometry,name,place_id,plus_code",
+                    getApplication<Application>().applicationContext.getString(R.string.api_key_google_maps))
+
+                if (request.isSuccessful) {
+                    if (request.body() != null) {
+                        placeInfo = request.body()!!
+                        lat = placeInfo.candidates.get(0).geometry.location.lat
+                        lon = placeInfo.candidates.get(0).geometry.location.lng
+                    }
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        //}
     }
 }
 

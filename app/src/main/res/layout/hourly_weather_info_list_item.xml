@@ -22,7 +22,7 @@
             android:id="@+id/hourly_temp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:hourlyTemps="@{searchWeatherViewModel.weatherInfoLiveData.hourly}"
+            app:hourlyTemps="@{searchWeatherViewModel.weatherInfo.hourly}"
             app:position="@{position}"/>
 
     </FrameLayout>

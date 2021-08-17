@@ -25,4 +25,9 @@
     <string name="profile_avatar_cd">Profile\'s avatar</string>
     <string name="like">Like</string>
     <string name="current_place_permisstion_denied_meg">位置情報へのアクセスを許可すると、現在地の天気情報を取得できるようになります。</string>
+    <string name="place_name_hint">調べる場所</string>
+    <string name="search_current_place">現在地を検索</string>
+    <string name="search_weather">GET 天気</string>
+    <string name="api_key_open_weather_map">apikey</string>
+    <string name="api_key_google_maps">apikey</string>
 </resources>

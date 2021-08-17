@@ -38,17 +38,21 @@ class SearchWeatherFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
+        Log.d("SearchWeatherFragment", "onCreateView")
         //githubにはapikeyのcommit禁止！!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        Places.initialize(requireActivity().getApplicationContext(), "AIzaSyBv8w2ox4_QT82ojiuDcZ3hm6k48eAqrng")
+        Places.initialize(requireActivity().getApplicationContext(), requireActivity().getApplicationContext().getString(R.string.api_key_google_maps))
 
-        binding = DataBindingUtil.inflate(inflater, R.layout.solution, container, false) //dataBinding
+        //binding = DataBindingUtil.inflate(inflater, R.layout.solution, container, false) //dataBinding
+        binding = SolutionBinding.inflate(inflater, container, false)
         binding.lifecycleOwner = this
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        Log.d("SearchWeatherFragment", "onViewCreated")
         binding.searchWeatherFragment = this
+        binding.searchWeatherViewModel = searchWeatherViewModel
         observeWeatherInfoViewModel(searchWeatherViewModel)
     }
 
@@ -56,7 +60,7 @@ class SearchWeatherFragment : Fragment() {
     //通知の内容に応じた処理を行う
     private fun observeWeatherInfoViewModel(viewModel: SearchWeatherViewModel) {
         //データをSTARTED かRESUMED状態である場合にのみ、アップデートするように、LifecycleOwnerを紐付け、ライフサイクル内にオブザーバを追加
-        viewModel.weatherInfoLiveData.observe(viewLifecycleOwner, Observer { weatherInfo ->
+        viewModel.weatherInfo.observe(viewLifecycleOwner, Observer { weatherInfo ->
             if (weatherInfo != null) {
                 binding.searchWeatherViewModel = viewModel
 
@@ -71,14 +75,29 @@ class SearchWeatherFragment : Fragment() {
         })
     }
 
-    fun getCurrentPlace() {
-        if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION)
-            != PackageManager.PERMISSION_GRANTED) {
+    fun searchWeather() {
+        if (searchWeatherViewModel.searchCurrentPlace.value!!) {
+            if (ContextCompat.checkSelfPermission(
+                    requireContext(),
+                    Manifest.permission.ACCESS_FINE_LOCATION
+                )
+                != PackageManager.PERMISSION_GRANTED
+            ) {
 
-            requestPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
+                requestPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
+            } else {
+                // 現在位置の天気情報を取得
+                searchWeatherViewModel.requestWeatherOfCurrentPlace()
+            }
         } else {
-            searchWeatherViewModel.requestWeatherOfCurrentPlace()
+            // 入力された場所の天気を取得
+            searchWeatherViewModel.requestWeatherOfSpecificPlace()
         }
+    }
+
+    fun printSearchCurrentPlace() {
+        Log.d("searchCurrentPlace", searchWeatherViewModel.searchCurrentPlace.value.toString())
+        Log.d("placeName", searchWeatherViewModel.placeName.value.toString())
     }
 
     private fun getRequestPermissionLauncher(): ActivityResultLauncher<String> {

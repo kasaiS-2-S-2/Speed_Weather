@@ -31,7 +31,7 @@ class HourlyWeatherInfoListAdapter(private val viewModel: SearchWeatherViewModel
 
     // Return the size of your dataset (invoked by the layout manager)
     override fun getItemCount(): Int {
-        val dataSize = viewModel.weatherInfoLiveData.value?.hourly?.size
+        val dataSize = viewModel.weatherInfo.value?.hourly?.size
         if (dataSize != null) {
             return dataSize
         } else {
