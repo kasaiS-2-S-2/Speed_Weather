@@ -24,8 +24,8 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/hourly_temps_view"
-            android:layout_width="409dp"
-            android:layout_height="523dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginTop="192dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
@@ -76,6 +76,15 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/searched_place_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{searchWeatherViewModel.searchedPlaceInfo}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/hourly_temps_view" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

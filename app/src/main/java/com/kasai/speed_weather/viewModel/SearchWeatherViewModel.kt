@@ -35,11 +35,14 @@ class SearchWeatherViewModel(application: Application) : AndroidViewModel(applic
     val placeName = MutableLiveData<String>("")
     // 現在地を検索するかのラジオボタンの値
     val searchCurrentPlace = MutableLiveData<Boolean>(false)
+    private var placeInfo: PlaceInfo = PlaceInfo(emptyList(), "")
     // 調べる場所の経度(初期値は南極に設定)
     private var lat: Double = -75.250973
     // 調べる場所の緯度(初期値は南極に設定)
     private var lon: Double = -0.071389
-    private var placeInfo: PlaceInfo = PlaceInfo(emptyList(), "")
+    // 表示されている天気の大体の場所
+    private val _searchedPlaceInfo = MutableLiveData<String>()
+    val searchedPlaceInfo = _searchedPlaceInfo
 
     fun printSearchCurrentPlace() {
         Log.d("searchCurrentPlace", searchCurrentPlace.value.toString())
@@ -48,47 +51,85 @@ class SearchWeatherViewModel(application: Application) : AndroidViewModel(applic
 
     fun requestWeatherOfCurrentPlace() {
         // Use fields to define the data types to return.
-        val placeFields: List<Place.Field> = listOf(Place.Field.LAT_LNG)
+        val placeFieldsAddress: List<Place.Field> = listOf(Place.Field.ADDRESS)
         // Use the builder to create a FindCurrentPlaceRequest.
-        val request: FindCurrentPlaceRequest = FindCurrentPlaceRequest.newInstance(placeFields)
-        // Call findCurrentPlace and handle the response (first check that the user has granted permission).
+        val requestAddress: FindCurrentPlaceRequest = FindCurrentPlaceRequest.newInstance(placeFieldsAddress)
 
+        // 現在地の住所を取得する
+        loadCurrentPlaceAddress(requestAddress)
+    }
+
+    // 現在地の住所を取得する関数
+    private fun loadCurrentPlaceAddress(requestAddress: FindCurrentPlaceRequest) {
+        // Call findCurrentPlace and handle the response (first check that the user has granted permission).
         if (ContextCompat.checkSelfPermission(getApplication<Application>(), Manifest.permission.ACCESS_FINE_LOCATION) ==
             PackageManager.PERMISSION_GRANTED) {
 
-            val placesClient = Places.createClient(getApplication<Application>())
-            val placeResponse = placesClient.findCurrentPlace(request)
+            val placesClientAddress = Places.createClient(getApplication<Application>())
+            val placeResponseAddress = placesClientAddress.findCurrentPlace(requestAddress)
 
-            placeResponse.addOnCompleteListener { task ->
-                    if (task.isSuccessful) {
-                        Log.d("placeResponse", "success")
+            placeResponseAddress.addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    val mostAccurateCurrentPlaceInfo = getMostAccurateCurrentLocation(task)
+                    val currentPlaceAddress = mostAccurateCurrentPlaceInfo?.place?.address
 
-                        val mostAccurateCurrentPlaceInfo = getMostAccurateCurrentLocation(task)
-                        val latResult = mostAccurateCurrentPlaceInfo?.place?.latLng?.latitude
-                        val lonResult = mostAccurateCurrentPlaceInfo?.place?.latLng?.longitude
+                    if (currentPlaceAddress != null) {
+                        searchedPlaceInfo.value = currentPlaceAddress
 
-                        if (latResult != null && lonResult != null) {
-                            lat = latResult
-                            lon = lonResult
-
-                            // 現在地の情報取得に成功した場合は現在地の天気を取得する
-                            loadWeatherInfo(lat, lon)
-                        } else {
-                            // 現在地の情報取得に失敗した場合はシカゴの天気を取得する
-                            loadWeatherInfo(41.8781, -87.6297)
-                        }
+                        val placeFieldsLatLng: List<Place.Field> = listOf(Place.Field.LAT_LNG)
+                        val requestLatLng: FindCurrentPlaceRequest = FindCurrentPlaceRequest.newInstance(placeFieldsLatLng)
+                        // 住所の取得が成功したら、次は現在地の緯度経度を取得する
+                        loadCurrentPlaceLatLng(requestLatLng)
                     } else {
-                        val exception = task.exception
-                        if (exception is ApiException) {
-                            Log.d(ContentValues.TAG, "Place not found: ${exception.statusCode}")
-                        }
-                        // 現在地の情報取得に失敗した場合はシカゴの天気を取得する
-                        loadWeatherInfo(41.8781, -87.6297)
+                        // 現在地の情報取得に失敗した場合は南極の天気を取得する
+                        loadWeatherInfo(-75.250973, -0.071389)
                     }
+                } else {
+                    val exception = task.exception
+                    if (exception is ApiException) {
+                        Log.d(ContentValues.TAG, "Place not found: ${exception.statusCode}")
+                    }
+                    // 現在地の情報取得に失敗した場合は南極の天気を取得する
+                    loadWeatherInfo(-75.250973, -0.071389)
+                }
+            }
+        }
+    }
+
+    // 現在地の緯度経度を取得する関数
+    private fun loadCurrentPlaceLatLng(requestLatLng: FindCurrentPlaceRequest) {
+        // Call findCurrentPlace and handle the response (first check that the user has granted permission).
+        if (ContextCompat.checkSelfPermission(getApplication<Application>(), Manifest.permission.ACCESS_FINE_LOCATION) ==
+            PackageManager.PERMISSION_GRANTED) {
+
+            val placesClientLatLng = Places.createClient(getApplication<Application>())
+            val placeResponseLatLng = placesClientLatLng.findCurrentPlace(requestLatLng)
+
+            placeResponseLatLng.addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    val mostAccurateCurrentPlaceInfo = getMostAccurateCurrentLocation(task)
+                    val latResult = mostAccurateCurrentPlaceInfo?.place?.latLng?.latitude
+                    val lonResult = mostAccurateCurrentPlaceInfo?.place?.latLng?.longitude
+
+                    if (latResult != null && lonResult != null) {
+                        lat = latResult
+                        lon = lonResult
+                        // 現在地の情報取得に成功した場合は現在地の天気を取得する
+                        loadWeatherInfo(lat, lon)
+                    } else {
+                        // 現在地の情報取得に失敗した場合は南極の天気を取得する
+                        loadWeatherInfo(-75.250973, -0.071389)
+                    }
+                } else {
+                    val exception = task.exception
+                    if (exception is ApiException) {
+                        Log.d(ContentValues.TAG, "Place not found: ${exception.statusCode}")
+                    }
+                    // 現在地の情報取得に失敗した場合は南極の天気を取得する
+                    loadWeatherInfo(-75.250973, -0.071389)
+                }
             }
 
-        } else {
-            Log.d("CurrentPlaceInfoVM", "not granted")
         }
     }
 
@@ -154,8 +195,9 @@ class SearchWeatherViewModel(application: Application) : AndroidViewModel(applic
                 if (request.isSuccessful) {
                     if (request.body() != null) {
                         placeInfo = request.body()!!
-                        lat = placeInfo.candidates.get(0).geometry.location.lat
-                        lon = placeInfo.candidates.get(0).geometry.location.lng
+                        lat = placeInfo.candidates[0].geometry.location.lat
+                        lon = placeInfo.candidates[0].geometry.location.lng
+                        _searchedPlaceInfo.value = placeInfo.candidates[0].formatted_address
                     }
                 }
             } catch (e: Exception) {
