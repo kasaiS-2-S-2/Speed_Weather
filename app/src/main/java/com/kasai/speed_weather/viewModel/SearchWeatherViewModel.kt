@@ -170,9 +170,12 @@ class SearchWeatherViewModel(application: Application) : AndroidViewModel(applic
         //viewModelScope->ViewModel.onCleared() のタイミングでキャンセルされる CoroutineScope
         viewModelScope.launch {
             try {
-                // 実行時は、appIDを自分のやつに書き換えする
+                val appContext = getApplication<Application>().applicationContext
+                // 実行時は、appkeyを自分のやつに書き換えする
                 val request = repository.getWeatherInfo(lat.toString(), lon.toString(),
-                    "metric","minutely", getApplication<Application>().applicationContext.getString(R.string.api_key_open_weather_map))
+                    appContext.getString(R.string.parameter_open_weather_map_units),
+                    appContext.getString(R.string.parameter_open_weather_map_exclude),
+                    appContext.getString(R.string.api_key_open_weather_map))
                 if (request.isSuccessful) {
                     //データを取得したら、LiveDataを更新
                     _weatherInfo.postValue(request.body())
@@ -187,9 +190,12 @@ class SearchWeatherViewModel(application: Application) : AndroidViewModel(applic
         //viewModelScope->ViewModel.onCleared() のタイミングでキャンセルされる CoroutineScope
         //viewModelScope.launch {
             try {
-                // 実行時は、keyを自分のやつに書き換えする
-                val request = repository.getPlaceInfo(placeName, "textquery",
-                    "formatted_address,geometry,name,place_id,plus_code",getApplication<Application>().applicationContext.getString(R.string.api_key_google_maps))
+                val appContext = getApplication<Application>().applicationContext
+                // 実行時は、apikeyを自分のやつに書き換えする
+                val request = repository.getPlaceInfo(placeName,
+                    appContext.getString(R.string.parameters_google_maps_inputType),
+                    appContext.getString(R.string.parameters_google_maps_fields),
+                    appContext.getString(R.string.api_key_google_maps))
 
                 if (request.isSuccessful) {
                     if (request.body() != null) {

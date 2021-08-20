@@ -8,11 +8,22 @@ import com.kasai.speed_weather.model.WeatherInfo
 fun showHourlyTemp(view: TextView, hourlyTemps: List<WeatherInfo.Hourly>?, position: Int) {
 
     val hourlyTemp = hourlyTemps?.get(position)?.temp
-    var tempsWithC: Long = 0
     var hourlyTempString = ""
     if (hourlyTemp != null) {
         hourlyTempString = " " + Math.round(hourlyTemp) + " "
     }
 
     view.setText(hourlyTempString)
+}
+
+@BindingAdapter("hourlyWeathers", "position", requireAll = true)
+fun showHourlyWeather(view: TextView, hourlyWeathers: List<WeatherInfo.Hourly>?, position: Int) {
+
+    val hourlyWeather = hourlyWeathers?.get(position)?.weather?.get(0)?.description
+    var hourlyWeatherString = ""
+    if (hourlyWeather != null) {
+        hourlyWeatherString = " " + hourlyWeather + " "
+    }
+
+    view.setText(hourlyWeatherString)
 }

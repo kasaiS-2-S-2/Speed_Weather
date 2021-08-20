@@ -12,10 +12,11 @@
 
     </data>
 
-    <FrameLayout
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
+        android:orientation="vertical"
         android:background="@color/colorAccent">
 
         <TextView
@@ -24,7 +25,13 @@
             android:layout_height="wrap_content"
             app:hourlyTemps="@{searchWeatherViewModel.weatherInfo.hourly}"
             app:position="@{position}"/>
+        <TextView
+            android:id="@+id/hourly_weather"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:hourlyWeathers="@{searchWeatherViewModel.weatherInfo.hourly}"
+            app:position="@{position}"/>
 
-    </FrameLayout>
+    </LinearLayout>
 
 </layout>

@@ -16,6 +16,8 @@ data class WeatherInfo(
         val feels_like: Double,
         val humidity: Double,
         val pressure: Double,
+        val rain: Rain,
+        val snow: Snow,
         val sunrise: Double,
         val sunset: Double,
         val temp: Double,
@@ -26,6 +28,12 @@ data class WeatherInfo(
         val wind_gust: Double,
         val wind_speed: Double
     ) {
+        data class Rain(
+            val `1h`: Double
+        )
+        data class Snow(
+            val `1h`: Double
+        )
         data class Weather(
             val description: String,
             val icon: String,
@@ -46,6 +54,7 @@ data class WeatherInfo(
         val pop: Double,
         val pressure: Double,
         val rain: Double,
+        val snow: Double,
         val sunrise: Double,
         val sunset: Double,
         val temp: Temp,
@@ -61,7 +70,6 @@ data class WeatherInfo(
             val morn: Double,
             val night: Double
         )
-
         data class Temp(
             val day: Double,
             val eve: Double,
@@ -70,7 +78,6 @@ data class WeatherInfo(
             val morn: Double,
             val night: Double
         )
-
         data class Weather(
             val description: String,
             val icon: String,
@@ -88,6 +95,7 @@ data class WeatherInfo(
         val pop: Double,
         val pressure: Double,
         val rain: Rain,
+        val snow: Snow,
         val temp: Double,
         val uvi: Double,
         val visibility: Double,
@@ -99,7 +107,9 @@ data class WeatherInfo(
         data class Rain(
             val `1h`: Double
         )
-
+        data class Snow(
+            val `1h`: Double
+        )
         data class Weather(
             val description: String,
             val icon: String,

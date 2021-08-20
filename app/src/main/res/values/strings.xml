@@ -30,4 +30,8 @@
     <string name="search_weather">GET 天気</string>
     <string name="api_key_open_weather_map">apikey</string>
     <string name="api_key_google_maps">apikey</string>
+    <string name="parameter_open_weather_map_units">metric</string>
+    <string name="parameter_open_weather_map_exclude">minutely,alerts</string>
+    <string name="parameters_google_maps_inputType">textquery</string>
+    <string name="parameters_google_maps_fields">formatted_address,geometry,name,place_id,plus_code</string>
 </resources>

@@ -10,7 +10,6 @@ const val HTTPS_API_OPEN_WEATHER_MAP_URL = "https://api.openweathermap.org/"
 const val HTTPS_API_MAPS_GOOGLEAPIS_URL = "https://maps.googleapis.com/"
 
 class InfoRepository {
-
     companion object Factory {
         val instance: InfoRepository
             @Synchronized get() { //このアノテーションの意味確認！ → https://qiita.com/leebon93/items/c7f2ac357f36930ff77f
