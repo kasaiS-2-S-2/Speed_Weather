@@ -40,9 +40,9 @@ class SearchWeatherViewModel(application: Application) : AndroidViewModel(applic
     private var lat: Double = -75.250973
     // 調べる場所の緯度(初期値は南極に設定)
     private var lon: Double = -0.071389
-    // 表示されている天気の大体の場所
-    private val _searchedPlaceInfo = MutableLiveData<String>()
-    val searchedPlaceInfo = _searchedPlaceInfo
+    // 天気を調べる場所の住所
+    private val _searchedPlaceAddress = MutableLiveData<String>()
+    val searchedPlaceAddress = _searchedPlaceAddress
 
     fun printSearchCurrentPlace() {
         Log.d("searchCurrentPlace", searchCurrentPlace.value.toString())
@@ -57,6 +57,14 @@ class SearchWeatherViewModel(application: Application) : AndroidViewModel(applic
 
         // 現在地の住所を取得する
         loadCurrentPlaceAddress(requestAddress)
+    }
+
+    fun requestWeatherOfSpecificPlace() {
+        viewModelScope.launch {
+            // viewModelScope->ViewModel.onCleared() のタイミングでキャンセルされる CoroutineScope
+            loadSpecificPlaceInfo(placeName.value.toString())
+            loadWeatherInfo(lat, lon)
+        }
     }
 
     // 現在地の住所を取得する関数
@@ -74,7 +82,7 @@ class SearchWeatherViewModel(application: Application) : AndroidViewModel(applic
                     val currentPlaceAddress = mostAccurateCurrentPlaceInfo?.place?.address
 
                     if (currentPlaceAddress != null) {
-                        searchedPlaceInfo.value = currentPlaceAddress
+                        _searchedPlaceAddress.value = currentPlaceAddress!!
 
                         val placeFieldsLatLng: List<Place.Field> = listOf(Place.Field.LAT_LNG)
                         val requestLatLng: FindCurrentPlaceRequest = FindCurrentPlaceRequest.newInstance(placeFieldsLatLng)
@@ -133,14 +141,6 @@ class SearchWeatherViewModel(application: Application) : AndroidViewModel(applic
         }
     }
 
-    fun requestWeatherOfSpecificPlace() {
-        viewModelScope.launch {
-            // viewModelScope->ViewModel.onCleared() のタイミングでキャンセルされる CoroutineScope
-            loadPlaceInfo(placeName.value.toString())
-            loadWeatherInfo(lat, lon)
-        }
-    }
-
     private fun getMostAccurateCurrentLocation(task: Task<FindCurrentPlaceResponse>): PlaceLikelihood? {
         val response = task.result
         var resultPlaceInfo: PlaceLikelihood? = response?.placeLikelihoods?.get(0)
@@ -165,14 +165,14 @@ class SearchWeatherViewModel(application: Application) : AndroidViewModel(applic
         }
     }
 
-    fun loadWeatherInfo(lat: Double, lon: Double) {
+    private fun loadWeatherInfo(lat: Double, lon: Double) {
         Log.d("loadWeatherInfo", "lat" + " " + lat + " " + "lon" + " " + lon)
         //viewModelScope->ViewModel.onCleared() のタイミングでキャンセルされる CoroutineScope
         viewModelScope.launch {
             try {
                 // 実行時は、appIDを自分のやつに書き換えする
                 val request = repository.getWeatherInfo(lat.toString(), lon.toString(),
-                    "minutely", getApplication<Application>().applicationContext.getString(R.string.api_key_open_weather_map))
+                    "metric","minutely", getApplication<Application>().applicationContext.getString(R.string.api_key_open_weather_map))
                 if (request.isSuccessful) {
                     //データを取得したら、LiveDataを更新
                     _weatherInfo.postValue(request.body())
@@ -183,21 +183,20 @@ class SearchWeatherViewModel(application: Application) : AndroidViewModel(applic
         }
     }
 
-    suspend fun loadPlaceInfo(placeName: String) {
+    private suspend fun loadSpecificPlaceInfo(placeName: String) {
         //viewModelScope->ViewModel.onCleared() のタイミングでキャンセルされる CoroutineScope
         //viewModelScope.launch {
             try {
                 // 実行時は、keyを自分のやつに書き換えする
                 val request = repository.getPlaceInfo(placeName, "textquery",
-                    "formatted_address,geometry,name,place_id,plus_code",
-                    getApplication<Application>().applicationContext.getString(R.string.api_key_google_maps))
+                    "formatted_address,geometry,name,place_id,plus_code",getApplication<Application>().applicationContext.getString(R.string.api_key_google_maps))
 
                 if (request.isSuccessful) {
                     if (request.body() != null) {
                         placeInfo = request.body()!!
                         lat = placeInfo.candidates[0].geometry.location.lat
                         lon = placeInfo.candidates[0].geometry.location.lng
-                        _searchedPlaceInfo.value = placeInfo.candidates[0].formatted_address
+                        _searchedPlaceAddress.value = placeInfo.candidates[0].formatted_address
                     }
                 }
             } catch (e: Exception) {

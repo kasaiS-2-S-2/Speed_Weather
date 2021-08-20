@@ -11,6 +11,7 @@ interface SearchWeatherService {
     suspend fun getWeatherInfo(
         @Query("lat") lat: String,
         @Query("lon") lon: String,
+        @Query("units") units: String,
         @Query("exclude") exclude: String,
         @Query("appid") appID: String
     ): Response<WeatherInfo>

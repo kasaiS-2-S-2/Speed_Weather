@@ -9,11 +9,10 @@ fun showHourlyTemp(view: TextView, hourlyTemps: List<WeatherInfo.Hourly>?, posit
 
     val hourlyTemp = hourlyTemps?.get(position)?.temp
     var tempsWithC: Long = 0
+    var hourlyTempString = ""
     if (hourlyTemp != null) {
-        tempsWithC = Math.round(hourlyTemp - 273.15)
+        hourlyTempString = " " + Math.round(hourlyTemp) + " "
     }
-
-    val hourlyTempString = " " + tempsWithC + " "
 
     view.setText(hourlyTempString)
 }

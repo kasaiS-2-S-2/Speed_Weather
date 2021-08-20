@@ -23,8 +23,8 @@ class InfoRepository {
         .addConverterFactory(GsonConverterFactory.create())
         .build()
     private val searchWeatherService: SearchWeatherService = retrofitOfWeather.create(SearchWeatherService::class.java)
-    suspend fun getWeatherInfo(lat: String, lon: String, exclude: String, appID: String): Response<WeatherInfo> =
-        searchWeatherService.getWeatherInfo(lat, lon, exclude, appID)
+    suspend fun getWeatherInfo(lat: String, lon: String, units: String, exclude: String, appID: String): Response<WeatherInfo> =
+        searchWeatherService.getWeatherInfo(lat, lon, units, exclude, appID)
 
 
     private val retrofitOfPlace = Retrofit.Builder()
