@@ -31,7 +31,6 @@
             android:layout_height="wrap_content"
             app:hourlyWeathers="@{searchWeatherViewModel.weatherInfo.hourly}"
             app:position="@{position}"/>
-
     </LinearLayout>
 
 </layout>

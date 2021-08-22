@@ -22,6 +22,7 @@ import com.kasai.speed_weather.model.PlaceInfo
 import com.kasai.speed_weather.model.WeatherInfo
 import com.kasai.speed_weather.repository.InfoRepository
 import kotlinx.coroutines.launch
+import java.util.*
 
 
 class SearchWeatherViewModel(application: Application) : AndroidViewModel(application) {
