@@ -42,9 +42,8 @@ class SearchWeatherFragment : Fragment() {
         //githubにはapikeyのcommit禁止！!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         Places.initialize(requireActivity().getApplicationContext(), requireActivity().getApplicationContext().getString(R.string.api_key_google_maps))
 
-        //binding = DataBindingUtil.inflate(inflater, R.layout.solution, container, false) //dataBinding
         binding = SolutionBinding.inflate(inflater, container, false)
-        binding.lifecycleOwner = this
+        binding.lifecycleOwner = viewLifecycleOwner
         return binding.root
     }
 
@@ -65,7 +64,7 @@ class SearchWeatherFragment : Fragment() {
                 binding.searchWeatherViewModel = viewModel
 
                 val hourlyTempsRecyclerView = binding.hourlyTempsView
-                val adapter = HourlyWeatherInfoListAdapter(viewModel, this)
+                val adapter = HourlyWeatherInfoListAdapter(viewModel, viewLifecycleOwner)
                 hourlyTempsRecyclerView.adapter = adapter
                 val layoutManager = LinearLayoutManager(activity)
                 layoutManager.orientation = LinearLayoutManager.HORIZONTAL
