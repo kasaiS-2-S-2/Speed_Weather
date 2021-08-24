@@ -22,6 +22,38 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <LinearLayout
+            android:id="@+id/current_weather_view_group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintTop_toBottomOf="@+id/search_weather_button"
+            app:layout_constraintBottom_toTopOf="@+id/hourly_temps_view"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <TextView
+                android:id="@+id/current_temp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:should_be_rounded_value="@{searchWeatherViewModel.weatherInfo.Current.temp}"/>
+            <TextView
+                android:id="@+id/current_feels_like_temp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:should_be_rounded_value="@{searchWeatherViewModel.weatherInfo.Current.feels_like}"/>
+            <TextView
+                android:id="@+id/current_humidity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:should_be_rounded_value="@{searchWeatherViewModel.weatherInfo.Current.humidity}"/>
+            <TextView
+                android:id="@+id/current_rain"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:rain="@{searchWeatherViewModel.weatherInfo.Current.Rain.get1h()}"/>
+
+        </LinearLayout>
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/hourly_temps_view"
             android:layout_width="wrap_content"
@@ -30,41 +62,9 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/search_weather_button"
+            app:layout_constraintBottom_toBottomOf="parent"
             tools:listitem="@layout/hourly_weather_info_list_item" />
-
-        <Button
-            android:id="@+id/getCurrentPlaceButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="@{() -> searchWeatherFragment.searchWeather()}"
-            android:text="@string/search_weather"
-            app:layout_constraintBottom_toTopOf="@+id/hourly_temps_view"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.498"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <EditText
-            android:id="@+id/place_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:hint="@string/place_name_hint"
-            android:text="@={searchWeatherViewModel.placeName}"
-            app:layout_constraintBottom_toTopOf="@+id/getCurrentPlaceButton"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <androidx.appcompat.widget.SwitchCompat
-            android:id="@+id/use_current_place_radio_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/search_current_place"
-            android:checked="@={searchWeatherViewModel.searchCurrentPlace}"
-            app:layout_constraintBottom_toTopOf="@+id/place_name"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
 
         <Button
             android:id="@+id/check"
@@ -76,6 +76,40 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/use_current_place_radio_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/search_current_place"
+            android:checked="@={searchWeatherViewModel.searchCurrentPlace}"
+            app:layout_constraintBottom_toTopOf="@+id/place_name"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/check"/>
+
+        <EditText
+            android:id="@+id/place_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:hint="@string/place_name_hint"
+            android:text="@={searchWeatherViewModel.placeName}"
+            app:layout_constraintBottom_toTopOf="@+id/search_weather_button"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <Button
+            android:id="@+id/search_weather_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="@{() -> searchWeatherFragment.searchWeather()}"
+            android:text="@string/search_weather"
+            app:layout_constraintBottom_toTopOf="@+id/hourly_temps_view"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
             android:id="@+id/searched_place_info"
