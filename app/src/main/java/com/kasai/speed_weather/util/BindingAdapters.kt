@@ -47,24 +47,24 @@ fun showHours(view: TextView, hours: List<WeatherInfo.Hourly>?, position: Int, t
     view.setText(hourString)
 }
 
-@BindingAdapter("should_be_rounded_value")
-fun showRoundedValue(view: TextView, value: Double?) {
+@BindingAdapter("should_be_rounded_value", "is_searched_weather_state")
+fun showRoundedValue(view: TextView, value: Double?, isSearchedWeatherState: Boolean) {
     var roundedValueString = ""
 
-    if (value != null) {
+    if (value != null && isSearchedWeatherState) {
         val roundedValue = Math.round(value)
 
-        roundedValueString = " " + roundedValue  + " "
+        roundedValueString = " " + roundedValue + " "
         view.setText(roundedValueString)
     }
 }
 
 
-@BindingAdapter("rain")
-fun showRain(view: TextView, rain: Double?) {
-    var rainString = "";
+@BindingAdapter("rain", "is_searched_weather_state")
+fun showRain(view: TextView, rain: Double?, isSearchedWeatherState: Boolean) {
+    var rainString = ""
 
-    if (rain != null) {
+    if (rain != null && isSearchedWeatherState) {
         val roundedRain = Math.round(rain)
 
         rainString = " " + roundedRain + "mm" + " "

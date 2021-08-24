@@ -33,9 +33,9 @@ class SearchWeatherViewModel(application: Application) : AndroidViewModel(applic
     val weatherInfo: LiveData<WeatherInfo> = _weatherInfo
 
     // 入力された場所の文字列
-    val placeName = MutableLiveData<String>("")
+    val placeName = MutableLiveData("")
     // 現在地を検索するかのラジオボタンの値
-    val searchCurrentPlace = MutableLiveData<Boolean>(false)
+    val searchCurrentPlace = MutableLiveData(false)
     private var placeInfo: PlaceInfo = PlaceInfo(emptyList(), "")
     // 調べる場所の経度(初期値は南極に設定)
     private var lat: Double = -75.250973
@@ -44,6 +44,9 @@ class SearchWeatherViewModel(application: Application) : AndroidViewModel(applic
     // 天気を調べる場所の住所
     private val _searchedPlaceAddress = MutableLiveData<String>()
     val searchedPlaceAddress = _searchedPlaceAddress
+    private val _isSearchedWeatherState = MutableLiveData(false)
+    val isSearchedWeatherState: LiveData<Boolean> = _isSearchedWeatherState
+
 
     fun printSearchCurrentPlace() {
         Log.d("searchCurrentPlace", searchCurrentPlace.value.toString())
@@ -180,6 +183,7 @@ class SearchWeatherViewModel(application: Application) : AndroidViewModel(applic
                 if (request.isSuccessful) {
                     //データを取得したら、LiveDataを更新
                     _weatherInfo.postValue(request.body())
+                    _isSearchedWeatherState.postValue(true)
                 }
             } catch (e: Exception) {
                 e.printStackTrace()

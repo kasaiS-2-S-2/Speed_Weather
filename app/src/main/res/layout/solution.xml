@@ -35,22 +35,26 @@
                 android:id="@+id/current_temp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:should_be_rounded_value="@{searchWeatherViewModel.weatherInfo.Current.temp}"/>
+                app:should_be_rounded_value="@{searchWeatherViewModel.weatherInfo.Current.temp}"
+                app:is_searched_weather_state="@{searchWeatherViewModel.isSearchedWeatherState}"/>
             <TextView
                 android:id="@+id/current_feels_like_temp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:should_be_rounded_value="@{searchWeatherViewModel.weatherInfo.Current.feels_like}"/>
+                app:should_be_rounded_value="@{searchWeatherViewModel.weatherInfo.Current.feels_like}"
+                app:is_searched_weather_state="@{searchWeatherViewModel.isSearchedWeatherState}"/>
             <TextView
                 android:id="@+id/current_humidity"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:should_be_rounded_value="@{searchWeatherViewModel.weatherInfo.Current.humidity}"/>
+                app:should_be_rounded_value="@{searchWeatherViewModel.weatherInfo.Current.humidity}"
+                app:is_searched_weather_state="@{searchWeatherViewModel.isSearchedWeatherState}"/>
             <TextView
                 android:id="@+id/current_rain"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:rain="@{searchWeatherViewModel.weatherInfo.Current.Rain.get1h()}"/>
+                app:rain="@{searchWeatherViewModel.weatherInfo.Current.Rain.get1h()}"
+                app:is_searched_weather_state="@{searchWeatherViewModel.isSearchedWeatherState}"/>
 
         </LinearLayout>
 
