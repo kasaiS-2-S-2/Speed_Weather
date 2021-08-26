@@ -53,7 +53,7 @@
                 android:id="@+id/current_rain"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:rain="@{searchWeatherViewModel.weatherInfo.Current.Rain.get1h()}"
+                app:current_rain="@{searchWeatherViewModel.weatherInfo.Current.Rain.get1h()}"
                 app:is_searched_weather_state="@{searchWeatherViewModel.isSearchedWeatherState}"/>
 
         </LinearLayout>

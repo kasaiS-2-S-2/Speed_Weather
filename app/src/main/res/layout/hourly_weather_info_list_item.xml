@@ -23,13 +23,13 @@
             android:id="@+id/hourly_temp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:hourlyTemps="@{searchWeatherViewModel.weatherInfo.hourly}"
+            app:hourly_temps="@{searchWeatherViewModel.weatherInfo.hourly}"
             app:position="@{position}"/>
         <TextView
             android:id="@+id/hourly_weather"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:hourlyWeathers="@{searchWeatherViewModel.weatherInfo.hourly}"
+            app:hourly_weathers="@{searchWeatherViewModel.weatherInfo.hourly}"
             app:position="@{position}"/>
         <TextView
             android:id="@+id/hour"
@@ -38,6 +38,12 @@
             app:hours="@{searchWeatherViewModel.weatherInfo.hourly}"
             app:position="@{position}"
             app:time_zone_string="@{searchWeatherViewModel.weatherInfo.timezone}"/>
+        <TextView
+            android:id="@+id/hourly_rain"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:hourly_rain="@{searchWeatherViewModel.weatherInfo.hourly}"
+            app:position="@{position}" />
 
     </LinearLayout>
 
