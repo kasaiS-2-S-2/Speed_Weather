@@ -19,6 +19,12 @@
         android:orientation="vertical"
         android:background="@color/colorAccent">
 
+        <ImageView
+            android:id="@+id/hourly_weather_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:hourly_weather_icon_id="@{searchWeatherViewModel.weatherInfo.hourly}"
+            app:position="@{position}"/>
         <TextView
             android:id="@+id/hourly_temp"
             android:layout_width="wrap_content"

@@ -1,10 +1,29 @@
 package com.kasai.speed_weather.util
 
+import android.content.Context
+import android.content.res.Resources
+import android.graphics.drawable.Drawable
 import android.util.Log
+import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
 import androidx.databinding.BindingAdapter
+import com.kasai.speed_weather.R
 import com.kasai.speed_weather.model.WeatherInfo
 import java.util.*
+
+@BindingAdapter("hourly_weather_icon_id", "position", requireAll = true)
+fun setHourlyWeatherIcon(view: ImageView, hourlyInfo: List<WeatherInfo.Hourly>?, position: Int) {
+    val hourlyWeatherIconID = hourlyInfo?.get(position)?.weather?.get(0)?.icon
+
+    if (hourlyWeatherIconID != null) {
+        val hourlyWeatherIcon = getWeatherIcon(hourlyWeatherIconID, view.context)
+        if (hourlyWeatherIcon != null) {
+            view.setImageDrawable(hourlyWeatherIcon)
+        }
+    }
+}
 
 @BindingAdapter("hourly_temps", "position", requireAll = true)
 fun showHourlyTemp(view: TextView, hourlyInfo: List<WeatherInfo.Hourly>?, position: Int) {
@@ -73,7 +92,7 @@ fun showRoundedValue(view: TextView, value: Double?, isSearchedWeatherState: Boo
 }
 
 
-@BindingAdapter("current_rain", "is_searched_weather_state")
+@BindingAdapter("current_rain", "is_searched_weather_state", requireAll = true)
 fun showCurrentRain(view: TextView, currentRain: Double?, isSearchedWeatherState: Boolean) {
     var currentRainString = ""
 
@@ -87,4 +106,37 @@ fun showCurrentRain(view: TextView, currentRain: Double?, isSearchedWeatherState
     }
 
     view.setText(currentRainString)
+}
+
+private fun getWeatherIcon(weatherIconID: String, context: Context): Drawable? {
+    return when (weatherIconID) {
+        "01d" -> {
+            ContextCompat.getDrawable(context, R.drawable.clear_sky)
+        }
+        "02d" -> {
+            ContextCompat.getDrawable(context, R.drawable.few_clouds)
+        }
+        "03d" -> {
+            ContextCompat.getDrawable(context, R.drawable.scattered_clouds)
+        }
+        "04d" -> {
+            ContextCompat.getDrawable(context, R.drawable.broken_clouds)
+        }
+        "09d" -> {
+            ContextCompat.getDrawable(context, R.drawable.shower_rain)
+        }
+        "10d" -> {
+            ContextCompat.getDrawable(context, R.drawable.rain)
+        }
+        "11d" -> {
+            ContextCompat.getDrawable(context, R.drawable.thunderstorm)
+        }
+        "13d" -> {
+            ContextCompat.getDrawable(context, R.drawable.snow)
+        }
+        "50d" -> {
+            ContextCompat.getDrawable(context, R.drawable.mist)
+        }
+        else -> null
+    }
 }
