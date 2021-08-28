@@ -21,7 +21,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.libraries.places.api.Places
 import com.kasai.speed_weather.R
-import com.kasai.speed_weather.databinding.SolutionBinding
+import com.kasai.speed_weather.databinding.FragmentSearchWeatherBinding
 import com.kasai.speed_weather.util.HourlyWeatherInfoListAdapter
 import com.kasai.speed_weather.viewModel.SearchWeatherViewModel
 
@@ -30,7 +30,7 @@ const val TAG_OF_SEARCH_WEATHER_FRAGMENT = "SearchWeatherFragment"
 
 class SearchWeatherFragment : Fragment() {
 
-    private lateinit var binding: SolutionBinding
+    private lateinit var binding: FragmentSearchWeatherBinding
 
     private val searchWeatherViewModel: SearchWeatherViewModel by viewModels()
 
@@ -42,7 +42,7 @@ class SearchWeatherFragment : Fragment() {
         //githubにはapikeyのcommit禁止！!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         Places.initialize(requireActivity().getApplicationContext(), requireActivity().getApplicationContext().getString(R.string.api_key_google_maps))
 
-        binding = SolutionBinding.inflate(inflater, container, false)
+        binding = FragmentSearchWeatherBinding.inflate(inflater, container, false)
         binding.lifecycleOwner = viewLifecycleOwner
         return binding.root
     }

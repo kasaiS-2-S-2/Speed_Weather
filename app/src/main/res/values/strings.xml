@@ -10,4 +10,13 @@
     <string name="parameter_open_weather_map_exclude">minutely,alerts</string>
     <string name="parameters_google_maps_inputType">textquery</string>
     <string name="parameters_google_maps_fields">formatted_address,geometry,name,place_id,plus_code</string>
+    <string name="icon_id_clear_sky">01d</string>
+    <string name="icon_id_few_clouds">02d</string>
+    <string name="icon_id_scattered_clouds">03d</string>
+    <string name="icon_id_broken_clouds">04d</string>
+    <string name="icon_id_shower_rain">09d</string>
+    <string name="icon_id_rain">10d</string>
+    <string name="icon_id_thunderstorm">11d</string>
+    <string name="icon_id_snow">13d</string>
+    <string name="icon_id_mist">50d</string>
 </resources>

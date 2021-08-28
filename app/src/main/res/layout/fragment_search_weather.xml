@@ -4,7 +4,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.kasai.speed_whether.ui.SolutionActivity">
+    tools:context="com.kasai.speed_whether.ui.MainActivity">
 
     <data>
 
@@ -31,7 +31,12 @@
             app:layout_constraintBottom_toTopOf="@+id/hourly_temps_view"
             app:layout_constraintStart_toStartOf="parent">
 
-
+            <ImageView
+                android:id="@+id/current_weather_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:current_weather_icon_id="@{searchWeatherViewModel.weatherInfo.Current}"
+                app:is_searched_weather_state="@{searchWeatherViewModel.isSearchedWeatherState}"/>
             <TextView
                 android:id="@+id/current_temp"
                 android:layout_width="wrap_content"

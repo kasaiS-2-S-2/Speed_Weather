@@ -91,6 +91,17 @@ fun showRoundedValue(view: TextView, value: Double?, isSearchedWeatherState: Boo
     }
 }
 
+@BindingAdapter("current_weather_icon_id", "is_searched_weather_state", requireAll = true)
+fun setCurrentWeatherIcon(view: ImageView, currentInfo: WeatherInfo.Current?, isSearchedWeatherState: Boolean) {
+    val currentWeatherIconID = currentInfo?.weather?.get(0)?.icon
+
+    if (currentWeatherIconID != null && isSearchedWeatherState) {
+        val currentWeatherIcon = getWeatherIcon(currentWeatherIconID, view.context)
+        if (currentWeatherIcon != null) {
+            view.setImageDrawable(currentWeatherIcon)
+        }
+    }
+}
 
 @BindingAdapter("current_rain", "is_searched_weather_state", requireAll = true)
 fun showCurrentRain(view: TextView, currentRain: Double?, isSearchedWeatherState: Boolean) {
@@ -110,31 +121,31 @@ fun showCurrentRain(view: TextView, currentRain: Double?, isSearchedWeatherState
 
 private fun getWeatherIcon(weatherIconID: String, context: Context): Drawable? {
     return when (weatherIconID) {
-        "01d" -> {
+        context.getString(R.string.icon_id_clear_sky) -> {
             ContextCompat.getDrawable(context, R.drawable.clear_sky)
         }
-        "02d" -> {
+        context.getString(R.string.icon_id_few_clouds) -> {
             ContextCompat.getDrawable(context, R.drawable.few_clouds)
         }
-        "03d" -> {
+        context.getString(R.string.icon_id_scattered_clouds) -> {
             ContextCompat.getDrawable(context, R.drawable.scattered_clouds)
         }
-        "04d" -> {
+        context.getString(R.string.icon_id_broken_clouds) -> {
             ContextCompat.getDrawable(context, R.drawable.broken_clouds)
         }
-        "09d" -> {
+        context.getString(R.string.icon_id_shower_rain) -> {
             ContextCompat.getDrawable(context, R.drawable.shower_rain)
         }
-        "10d" -> {
+        context.getString(R.string.icon_id_rain) -> {
             ContextCompat.getDrawable(context, R.drawable.rain)
         }
-        "11d" -> {
+        context.getString(R.string.icon_id_thunderstorm) -> {
             ContextCompat.getDrawable(context, R.drawable.thunderstorm)
         }
-        "13d" -> {
+        context.getString(R.string.icon_id_snow) -> {
             ContextCompat.getDrawable(context, R.drawable.snow)
         }
-        "50d" -> {
+        context.getString(R.string.icon_id_mist) -> {
             ContextCompat.getDrawable(context, R.drawable.mist)
         }
         else -> null
